@@ -22,7 +22,9 @@ function Register() {
 
     const handleSubmit=(event)=>{
         event.preventDefault();
-        handleValidation();
+       if(handleValidation()){
+           const
+       } ;
     }
 
     const handleChange=(event)=>{
@@ -33,11 +35,22 @@ function Register() {
         const {password,confirmPassword,username,email}=values;
         if(password!==confirmPassword){
           
-         toast.error(' passowrd and confirm password should be same.',toastOption)
-         
+         toast.error(' passowrd and confirm password should be same.',toastOption);
+         return false;
+        }else if (username.length<3){
+            toast.error(' username must be greater than 3',toastOption);
+            return false;
 
+        }else if (password.length<8){
+            toast.error(' password must at least than 8',toastOption);
+            return false;
+
+        }else if (email===""){
+            toast.error(' email is required',toastOption);
+            return false;
 
         }
+        return false;
     }
 
   return (
@@ -52,7 +65,7 @@ function Register() {
         <input type="text" placeholder="Username" name="username"  onChange={(event)=> handleChange(event)}  />
         <input type="email" placeholder="email" name="email"  onChange={(event)=> handleChange(event)}  />
         <input type="password" placeholder="password" name="password"  onChange={(event)=> handleChange(event)}  />
-        <input type="password" placeholder="confirmpassword" name="confirmpassword"  onChange={(event)=> handleChange(event)}  />
+        <input type="password" placeholder="confirmpassword" name="confirmPassword"  onChange={(event)=> handleChange(event)}  />
         <button type='submit' >Create user</button>
         <span> Already have account? 
         <Link to='/login'>   Login</Link>
