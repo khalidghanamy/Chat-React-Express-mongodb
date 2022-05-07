@@ -1,0 +1,1 @@
+npm i express mongoose nodemon socket.io bcrypt cors dotenv
