@@ -2,7 +2,11 @@
 module.exports={
     
     register:(req,res,next)=>{
+console.log("==========================");
+console.log(req.params);
+
 console.log(req.body);
-console.log('ffffffffffffffffffffffff');
+res.send({"fff":"ffff"})
+console.log("==========================");
 }
 }

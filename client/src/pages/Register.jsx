@@ -13,7 +13,10 @@ function Register() {
         password:'',
         confirmPassword:'',
     });
-
+    const headers = {
+        "Content-Type": "application/json",
+        
+      };
     const toastOption={
         position:"top-right",
         autoClose:8000,
@@ -25,13 +28,13 @@ function Register() {
     const handleSubmit=async (event)=>{
         event.preventDefault();
        if(handleValidation()){
-        console.log("Gggkkkkkkkg");
         
 
         const {password,username,email}=values;
-        const {data}= await axios.post(registerRoute,{
-            password,username,email
+        await axios.post(registerRoute,{
+            username,email,password
         })
+       
        } ;
     }
 
