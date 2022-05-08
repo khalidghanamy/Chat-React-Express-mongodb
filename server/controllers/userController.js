@@ -1,12 +1,38 @@
+const Users =require("../model/userModel")
+const brcypt= require("bcrypt")
+
 
 module.exports={
     
-    register:(req,res,next)=>{
-console.log("==========================");
-console.log(req.params);
+    register:async (req,res,next)=>{
+const {username,email,password}=req.body
+try {
+    
+const usernameCheck = await Users.findOne({username})
 
-console.log(req.body);
-res.send({"fff":"ffff"})
-console.log("==========================");
+if(usernameCheck)
+return res.json({msg:"user already exist",status:false})
+
+
+const emailCheck =await Users.findOne({email})
+console.log(email,emailCheck);
+if(emailCheck)
+return res.json({msg:"email already exist",status:false})
+
+const hashedPassword=await brcypt.hash(password,10);
+const user =await Users.create({
+    username,
+    email,
+    password:hashedPassword
+})
+delete user.password;
+return res.json({status:true,user})
+
+} catch (error) {
+    next(error)
 }
+}
+
+
+
 }
