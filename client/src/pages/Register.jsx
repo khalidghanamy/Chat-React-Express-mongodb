@@ -109,7 +109,7 @@ const FormContainer = styled.div`
 height:100vh;
 width:100vw;
 display:flex;
-flex-dircetion:column;
+flex-direction:column;
 justify-content:center;
 gap:1rem;
 align-items:center;
