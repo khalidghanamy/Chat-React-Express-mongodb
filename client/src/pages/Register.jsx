@@ -25,7 +25,12 @@ function Register() {
         draggable:true,
         theme:"dark"
      }
-
+ //to save the login state of the user
+ useEffect(()=>{
+    if(localStorage.getItem("chat-app-user")){
+        navigate("/")
+    }
+},[])
     const handleSubmit=async (event)=>{
         event.preventDefault();
        if(handleValidation()){
@@ -42,6 +47,7 @@ function Register() {
            localStorage.setItem("chat-app-user",JSON.stringify(data.user))
            navigate("/")
        }
+       
        } ;
     }
 
