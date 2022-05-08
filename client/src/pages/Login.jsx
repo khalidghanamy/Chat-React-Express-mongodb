@@ -26,6 +26,14 @@ function Login() {
         theme:"dark"
      }
 
+     //to save the login state of the user
+     useEffect(()=>{
+         if(localStorage.getItem("chat-app-user")){
+             navigate("/")
+         }
+     },[])
+
+
     const handleSubmit=async (event)=>{
         event.preventDefault();
        if(handleValidation()){
