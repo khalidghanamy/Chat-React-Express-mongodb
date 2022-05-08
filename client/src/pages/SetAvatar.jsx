@@ -149,13 +149,13 @@ button{
   border-radius:0.4rem;
   font-size:1rem;
   text-transform:uppercase;
-  transition:0ms.5s ease-in-out;
+  transition:0.5s ease-in-out;
   &:hover{
   background-color: #4e0eff;
       
   }
 
-
+}
 `;
 
 export default SetAvatar

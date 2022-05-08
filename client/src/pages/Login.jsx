@@ -101,7 +101,7 @@ const FormContainer = styled.div`
 height:100vh;
 width:100vw;
 display:flex;
-flex-dircetion:column;
+flex-direction:column;
 justify-content:center;
 gap:1rem;
 align-items:center;
@@ -129,7 +129,7 @@ form{
     padding:3rem 5rem;
     border-radius:2rem;
     input{
-        border-redius:0.4rem;
+        border-radius:0.4rem;
         background-color: transparent;
         padding:1rem;
         color:white;
@@ -152,7 +152,7 @@ form{
         border-radius:0.4rem;
         font-size:1rem;
         text-transform:uppercase;
-        transition:0ms.5s ease-in-out;
+        transition:  0.5s ease-in-out;
         &:hover{
         background-color: #4e0eff;
             
@@ -172,5 +172,5 @@ form{
     }
 }
 
-`;
+`
 export default Login

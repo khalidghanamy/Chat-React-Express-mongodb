@@ -31,7 +31,6 @@ module.exports = {
   },
 
   login: async (req, res, next) => {
-      console.log("++++++++++++++++++++++++++++++++++++++++");
     const { username, password } = req.body;
     try {
       const user = await Users.findOne({ username });
@@ -69,5 +68,20 @@ module.exports = {
           })
          
      
+  },
+  getAllUsers:(req,res,next)=>{
+      try {
+          const users =await Users.find({_id:{$ne:req.params.id}}).select([
+              
+            "email",
+              "username",
+              "avataImage",
+              "_id"
+            ]
+              
+          ) 
+      } catch (error) {
+          
+      }
   }
 };
