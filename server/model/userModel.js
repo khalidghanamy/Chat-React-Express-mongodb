@@ -23,6 +23,10 @@ const userSchema= new mongoose.Schema({
     isAvatarImage:{
         type:String,
         default:"",
+    },
+    avatarImage:{
+        type:String,
+        default:"",
     }
 });
 

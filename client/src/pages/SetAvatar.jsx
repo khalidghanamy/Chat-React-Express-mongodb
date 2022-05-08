@@ -9,6 +9,7 @@ import { setAvatarRoute } from '../utils/ApiRoutes';
 import {Buffer} from 'buffer'
 function SetAvatar() {
 
+
   const api='http://api.multiavatar.com/45678945'
   const navigate=useNavigate()
   const [avatars,setAvatars]=useState([]);
@@ -22,9 +23,30 @@ function SetAvatar() {
     theme:"dark"
  }
 
- const setProfilePicture=()=>{
+ useEffect(()=>{
+    if(!localStorage.getItem("chat-app-user")){
+      navigate("/login")
+    }
+ })
+
+ const setProfilePicture=async ()=>{
   if(selectedAvatar===undefined){
     toast.error(" Please select an avatar ",toastOption)
+  }else{
+   
+    const user=await JSON.parse(localStorage.getItem("chat-app-user"));
+   const {data}= await axios.post(`${setAvatarRoute}/${user._id}`,{
+      image:avatars[selectedAvatar],
+    })
+
+    if(data.isSet){
+      user.isAvatarImageSet=true;
+      user.avatarImage=data.image;
+      localStorage.setItem("chat-app-user",JSON.stringify(user));
+      navigate("/")
+    }else{
+      toast.error("Error setting avatar",toastOption)
+    }
   }
  }
  useEffect(()=>{
