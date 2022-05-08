@@ -137,7 +137,7 @@ form{
     padding:3rem 5rem;
     border-radius:2rem;
     input{
-        border-redius:0.4rem;
+        border-radius:0.4rem;
         background-color: transparent;
         padding:1rem;
         color:white;

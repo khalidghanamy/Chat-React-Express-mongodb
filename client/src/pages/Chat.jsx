@@ -30,7 +30,7 @@ function Chat() {
   return (
     <Container>
         <div className='container'>
-            <Contacts contacts={contacts}/>
+            <Contacts contacts={contacts} currentUser={currentUser}/>
         </div>
     </Container>
   )
