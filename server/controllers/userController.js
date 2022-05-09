@@ -58,28 +58,29 @@ module.exports = {
               avatarImage
           },{ new:true}).then((data)=>{
               
-            console.log(data); 
             return res.json({
             isSet: data.isAvatarImage,
             image: data.avatarImage,
         })
           }).catch((err)=>{
-            console.log(err);
+            next(err)
           })
          
      
   },
-  getAllUsers:(req,res,next)=>{
+  getAllUsers:async(req,res,next)=>{
+    console.log('==============================');
       try {
-          const users =await Users.find({_id:{$ne:req.params.id}}).select([
+          const users = await Users.find({_id:{$ne:req.params.id}}).select([
               
             "email",
               "username",
-              "avataImage",
+              "avatarImage",
               "_id"
             ]
               
           ) 
+          return res.json(users)
       } catch (error) {
           
       }

@@ -40,3 +40,8 @@ mongoose
 });
 
 app.use("/api/auth", userRoutes);
+
+
+app.use((err,req,res,next)=>{
+  res.status(500).json({Error:err})
+})

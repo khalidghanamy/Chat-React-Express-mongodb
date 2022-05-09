@@ -9,24 +9,39 @@ function Chat() {
     const [contacts,setContacts]=useState([])
     const [currentUser,setCurrentUser]=useState(undefined)
 
-    useEffect(async()=>{
+    useEffect(()=>{
+        async function getMe(){
         if(!localStorage.getItem("chat-app-user")){
             navigate("/login")
         }else{
             setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")))
         }
-    },[])
+    }
+    getMe()
+}
+    
+    ,[])
 
-    useEffect(async()=>{
+    useEffect(()=>{
+        console.log(currentUser);
+        async function myuseEff(currentUser){
         if(currentUser){
+            
+
             if(currentUser.isAvatarImage){
-                const data =await axios.get(`${allUsersRoute}/${currentUser._id}`)
+
+                const data = await axios.get(`${allUsersRoute}/${currentUser._id}`)
+                console.log(data.data);
                 setContacts(data.data)
             }else{
                 navigate("/setAvatar")
             }
         }
-    },[currentUser])
+    }
+    myuseEff(currentUser)
+
+
+},[currentUser])
   return (
     <Container>
         <div className='container'>
