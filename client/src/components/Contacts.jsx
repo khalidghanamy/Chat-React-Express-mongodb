@@ -42,6 +42,25 @@ function Contacts({ contacts, currentUser }) {
                                 </>
                             );
                         })}
+                         {contacts.map((contact, index) => {
+                            return (
+                                <>
+                                    <div
+                                        className={`contact ${index === currentSelected ? "selected" : ""
+                                            }`}
+                                        key={index}
+                                    >
+                                        <img
+                                            src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                                            alt="avatar"
+                                        />
+                                        <div className="username">
+                                            <h3>{contact.username}</h3>
+                                        </div>
+                                    </div>
+                                </>
+                            );
+                        })}
                     </div>
                     <div className="currentUuser">
                         <div className="avatar">
@@ -52,7 +71,7 @@ function Contacts({ contacts, currentUser }) {
                             />
                         </div>
                             <div className="username">
-                                <h2>{currentUserName}</h2>
+                                <h3>{currentUserName}</h3>
                             </div>
                     </div>
                 </Container>
@@ -85,6 +104,14 @@ const Container = styled.div`
     align-items: center;
     overflow: auto;
     gap: 0.7rem;
+    &::-webkit-scrollbar{
+      width: 0.3rem;
+      &-thumb{
+        background-color: #2e2b49a4;
+        width: 0.1rem;
+        border-radius: 1rem;
+      }
+    }
     .contact {
       background-color: #ffffff39;
       min-height: 4rem;
@@ -104,7 +131,7 @@ const Container = styled.div`
     }
 }
   .currentUuser {
-      background-color: #d94ee3;
+      background-color: #07032aa5;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -127,6 +154,14 @@ const Container = styled.div`
       }
       .selected {
         background-color: #312095;
+      }
+      @media screen and (min-width: 720px) and (max-width:1080px){
+        gap:0.5rem;
+        .username{
+          h3{
+            font-size:1rem ;
+          }
+        }
       }
     
 `;
