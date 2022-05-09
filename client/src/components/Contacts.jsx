@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
-function Contacts({ contacts, currentUser }) {
+function Contacts({ contacts, currentUser,changeChat }) {
     const [currentUserName, setCurrentUserName] = useState(undefined);
     const [currentUserImage, setCurrentUserImage] = useState(undefined);
     const [currentSelected, setCurrentSelected] = useState(undefined);
-
     useEffect(() => {
         console.log(contacts);
         if (currentUser) {
@@ -13,7 +12,11 @@ function Contacts({ contacts, currentUser }) {
             setCurrentUserName(currentUser.username);
         }
     }, [currentUser]);
-    const changeCurrentChat = (index, contact) => { };
+    
+    const changeCurrentChat = (index, contact) => { 
+      setCurrentSelected(index)
+      changeChat(contact)
+    };
     return (
         <>
             {currentUserImage && currentUserName && (
@@ -30,6 +33,7 @@ function Contacts({ contacts, currentUser }) {
                                         className={`contact ${index === currentSelected ? "selected" : ""
                                             }`}
                                         key={index}
+                                        onClick={()=>changeCurrentChat(index,contact)}
                                     >
                                         <img
                                             src={`data:image/svg+xml;base64,${contact.avatarImage}`}
@@ -129,6 +133,9 @@ const Container = styled.div`
      
       
     }
+    .selected {
+      background-color: #5339ec;
+    }
 }
   .currentUuser {
       background-color: #07032aa5;
@@ -151,9 +158,6 @@ const Container = styled.div`
         h3 {
           color: white;
         }
-      }
-      .selected {
-        background-color: #312095;
       }
       @media screen and (min-width: 720px) and (max-width:1080px){
         gap:0.5rem;
