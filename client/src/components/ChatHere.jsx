@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
-
+import Chatinput from "./Chatinput";
 function ChatHere({ currentChat }) {
+    const handleChatMessage=async (msg)=>{
+        
+    }
   return (
     <>
       {currentChat && (
@@ -22,6 +25,7 @@ function ChatHere({ currentChat }) {
           <Logout />
           </div>
           <div className="chat-messages"></div>
+          <Chatinput handleChatMessage={handleChatMessage}/>
           <div className="chat-input"></div>
         </Container>
       )}
