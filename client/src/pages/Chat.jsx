@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { allUsersRoute } from '../utils/ApiRoutes'
 import Contacts from '../components/Contacts'
+import Welcome from '../components/Welcome'
 function Chat() {
     const navigate=useNavigate()
     const [contacts,setContacts]=useState([])
@@ -24,7 +25,6 @@ function Chat() {
     ,[])
 
     useEffect(()=>{
-        console.log(currentUser);
         async function myuseEff(currentUser){
         if(currentUser){
             
@@ -32,7 +32,6 @@ function Chat() {
             if(currentUser.isAvatarImage){
 
                 const data = await axios.get(`${allUsersRoute}/${currentUser._id}`)
-                console.log(data.data);
                 setContacts(data.data)
             }else{
                 navigate("/setAvatar")
@@ -50,6 +49,7 @@ const handleChatChange=(chat)=>{
     <Container>
         <div className='container'>
             <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange}/>
+        <Welcome currentUser={currentUser}/>
         </div>
     </Container>
   )

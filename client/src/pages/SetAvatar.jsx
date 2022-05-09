@@ -40,14 +40,11 @@ function SetAvatar() {
     })
 
     if(data.isSet){
-      console.log(data);
       user.isAvatarImage=true;
 
       user.avatarImage=data.image;
-console.log("==========================");
       localStorage.setItem("chat-app-user",JSON.stringify(user));
       navigate("/")
-console.log("==========================");
 
     }else{
       toast.error("Error setting avatar",toastOption)
