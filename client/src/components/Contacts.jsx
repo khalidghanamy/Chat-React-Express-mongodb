@@ -46,25 +46,7 @@ function Contacts({ contacts, currentUser,changeChat }) {
                                 </>
                             );
                         })}
-                         {contacts.map((contact, index) => {
-                            return (
-                                <>
-                                    <div
-                                        className={`contact ${index === currentSelected ? "selected" : ""
-                                            }`}
-                                        key={index}
-                                    >
-                                        <img
-                                            src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                                            alt="avatar"
-                                        />
-                                        <div className="username">
-                                            <h3>{contact.username}</h3>
-                                        </div>
-                                    </div>
-                                </>
-                            );
-                        })}
+                         
                     </div>
                     <div className="currentUuser">
                         <div className="avatar">
