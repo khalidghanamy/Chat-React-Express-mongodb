@@ -1,19 +1,36 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styled from 'styled-components'
 import Picker from "emoji-picker-react"
 import { IoMdSend} from "react-icons/io"
 import {BsEmojiSmileFill} from "react-icons/bs"
 function Chatinput() {
+
+    const [showEmojiPicker,setshowEmojiPicker]=useState(false);
+    const [msg, setMsg] = useState('');
+    const handleEmojiClick=(event,emoji)=>{
+        let message = msg;
+        console.log(emoji.emoji);
+        message +=emoji.emoji
+        setMsg(message)
+    }
+
+    const showEmojiPickerHideShow =()=>{
+        setshowEmojiPicker(!showEmojiPicker)
+        setMsg(msg)
+    }
   return (
       <>
       <Container>
           <div className='button-container'>
-              <div className='emojy'>
-                  <BsEmojiSmileFill/>
+              <div className='emoji'>
+                  <BsEmojiSmileFill onClick={showEmojiPickerHideShow}/>
+                  {
+                      showEmojiPicker && <Picker onEmojiClick={handleEmojiClick}/>
+                  }
               </div>
           </div>
           <form className='input-container'>
-              <input type='text ' placeholder="type your message here"/>
+              <input type='text ' placeholder="type your message here" value={msg} onChange={(e)=> setMsg(e.target.value)}/>
               <button className='submit'> 
                <IoMdSend/>
               </button>
@@ -51,7 +68,7 @@ const Container = styled.div`
         top: -350px;
         background-color: #080420;
         box-shadow: 0 5px 10px #9a86f3;
-        border-color: #9a86f3;
+        border-color: #261573;
         .emoji-scroll-wrapper::-webkit-scrollbar {
           background-color: #080420;
           width: 5px;
