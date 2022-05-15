@@ -3,21 +3,29 @@ import styled from 'styled-components'
 import Picker from "emoji-picker-react"
 import { IoMdSend} from "react-icons/io"
 import {BsEmojiSmileFill} from "react-icons/bs"
+import { set } from 'mongoose'
 function Chatinput() {
 
     const [showEmojiPicker,setshowEmojiPicker]=useState(false);
     const [msg, setMsg] = useState('');
     const handleEmojiClick=(event,emoji)=>{
         let message = msg;
-        console.log(emoji.emoji);
         message +=emoji.emoji
         setMsg(message)
     }
 
     const showEmojiPickerHideShow =()=>{
         setshowEmojiPicker(!showEmojiPicker)
-        setMsg(msg)
     }
+
+    const sendChat=(event)=>{
+        event.preventDefault();
+        if(msg.length>0){
+            handleSendMsg(msg);
+            setMsg("");
+        }
+    }
+
   return (
       <>
       <Container>
