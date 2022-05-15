@@ -79,7 +79,7 @@ function Login() {
         <form onSubmit={(event)=>handleSubmit(event)}>
         <div className='brand'>
     <img src={Logo} alt='logo'/>
-    <h1>snappy</h1>
+    <h1>Zarita</h1>
         </div>
         <input type="text" placeholder="Username" name="username"  onChange={(event)=> handleChange(event)}  />
         <input type="password" placeholder="password" name="password"  onChange={(event)=> handleChange(event)}  />
