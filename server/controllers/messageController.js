@@ -23,7 +23,7 @@ module.exports.getAllmessages=async (req,res,next)=>{
         const {from,to}= req.body;
          const messages = await  Messages.find({
             users:{
-                $all:[from,to]
+                $all:[{from,to}]
             },
          })
          .sort({updatedAt:1})
