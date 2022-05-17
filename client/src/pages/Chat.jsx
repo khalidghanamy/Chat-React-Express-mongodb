@@ -8,6 +8,7 @@ import Welcome from "../components/Welcome";
 import ChatHere from "../components/ChatHere";
 
 function Chat() {
+  
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
