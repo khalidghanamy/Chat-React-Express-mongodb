@@ -33,7 +33,8 @@ module.exports.getAllmessages=async (req,res,next)=>{
                     message: msg.message.text
                 }
          })
+         return res.json(projectMessages)
     } catch (error) {
-        
+        next(error)
     }
 }
