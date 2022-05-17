@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
+const messageRoute = require("./routes/messageRoute");
+
 const body_parser = require("body-parser");
 
 const app = express();
@@ -40,6 +42,7 @@ mongoose
 });
 
 app.use("/api/auth", userRoutes);
+app.use("/api/messages", messageRoute);
 
 
 app.use((err,req,res,next)=>{
