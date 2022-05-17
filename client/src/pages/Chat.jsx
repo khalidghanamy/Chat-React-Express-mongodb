@@ -54,7 +54,7 @@ function Chat() {
           <Welcome currentUser={currentUser} />
         ) : (
           <ChatHere currentChat={currentChat
-        } />
+          } currentUser={currentUser} />
         )}
       </div>
     </Container>

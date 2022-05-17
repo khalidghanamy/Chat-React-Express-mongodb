@@ -2,10 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
 import Chatinput from "./Chatinput";
+import axios from "axios"
 import Messages from "./Messages";
-function ChatHere({ currentChat }) {
-    const handleChatMessage=async (msg)=>{
-
+import { sendMessageRoute } from "../utils/ApiRoutes";
+function ChatHere({ currentChat ,currentUser}) {
+    const handleSendMsg=async (msg)=>{
+      await axios.post(sendMessageRoute,{
+        from:currentUser._id,
+        to:currentChat._id,
+        message:msg
+      })
     }
   return (
     <>
@@ -28,7 +34,7 @@ function ChatHere({ currentChat }) {
         
               <Messages/>
       
-          <Chatinput handleChatMessage={handleChatMessage}/>
+          <Chatinput handleSendMsg={handleSendMsg}/>
           <div className="chat-input"></div>
         </Container>
       )}
