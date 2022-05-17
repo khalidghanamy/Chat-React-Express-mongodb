@@ -44,13 +44,13 @@ mongoose
 
 // establish connection
 const clientHost = "http://localhost:3000"
-const io =socket(server,{
+const io = socket(server,{
   origin:clientHost,
   credentials:true
 })
 
 //create global store for users
-global.onlineUsers= new map();
+global.onlineUsers= new Map();
 
 //when there is a connection - store socket in global chat socket
 // emit add user from front end whenever user is online we well add both to global map
@@ -59,19 +59,19 @@ io.on("connection",(socket)=>{
   socket.on("add-user",(userId)=>{
     onlineUsers.set(userId,socket.id)
   })
+  
+  // on send-msg event from front end
+  // we gonna send msg to online user
+  // or if he is online we well save it tp data base
+  // and when he back online he will recieved the msg
+  socket.on("send-msg",(data)=>{
+    const sendUserSocket =onlineUsers.get(data.to)
+    if(sendUserSocket){
+      socket.to(sendUserSocket).emit("msg-recieve",data.msg)
+    }
+  })
+  app.use("/api/auth", userRoutes);
 })
-
-// on send-msg event from front end
-// we gonna send msg to online user
-// or if he is online we well save it tp data base
-// and when he back online he will recieved the msg
-socket.on("send-msg",(data)=>{
-  const sendUserSocket =onlineUsers.get(data.to)
-  if(sendUserSocket){
-    socket.to(sendUserSocket).emit("msg-recieve",data.msg)
-  }
-})
-app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoute);
 
 
