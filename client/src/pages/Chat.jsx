@@ -1,14 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { allUsersRoute } from "../utils/ApiRoutes";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import ChatHere from "../components/ChatHere";
+import {io} from "socket.io-client"
+import {host} from "../utils/ApiRoutes"
 
 function Chat() {
-  
+const socket=useRef();
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -30,6 +32,16 @@ function Chat() {
   useEffect(() => {
     async function myuseEff(currentUser) {
       if (currentUser) {
+       socket.current= io(host);
+       socket.current.emit('add-user',currentUser._id)
+      }
+    }
+    myuseEff(currentUser);
+  }, [currentUser]);
+
+  useEffect(() => {
+    async function myuseEff(currentUser) {
+      if (currentUser) {
         if (currentUser.isAvatarImage) {
           const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
           setContacts(data.data);
@@ -40,6 +52,8 @@ function Chat() {
     }
     myuseEff(currentUser);
   }, [currentUser]);
+
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
@@ -54,8 +68,10 @@ function Chat() {
         {isLoaded && currentChat === undefined ? (
           <Welcome currentUser={currentUser} />
         ) : (
-          <ChatHere currentChat={currentChat
-          } currentUser={currentUser} />
+          <ChatHere
+          currentChat={currentChat} 
+          currentUser={currentUser} 
+          socket={socket}/>
         )}
       </div>
     </Container>
