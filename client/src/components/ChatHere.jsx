@@ -1,4 +1,4 @@
-import React ,{useState,useEffect}from "react";
+import React ,{useState,useEffect,useRef}from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
 import Chatinput from "./Chatinput";
@@ -6,21 +6,25 @@ import axios from "axios"
 import Messages from "./Messages";
 import { sendMessageRoute } from "../utils/ApiRoutes";
 import { getAlldMessageRoute } from "../utils/ApiRoutes";
-function ChatHere({ currentChat ,currentUser}) {
+function ChatHere({ currentChat ,currentUser,socket}) {
 
 
   const [messages, setMessages] = useState([])
+  const [arrivalmessage, setArrivalMessage] = useState(null)
+  const  scrollRef =useRef()
 
   useEffect(()=>{
-    async function getAllMessages (){
+    async function getAllMessages (currentChat){
       const response = await axios.post(getAlldMessageRoute,{
         from: currentUser._id,
         to:currentChat._id
       })
-      console.log(response);
       setMessages(response.data)
     }
-    getAllMessages()
+    if (currentChat) {
+      
+      getAllMessages(currentChat)
+    }
   },[currentChat])
     const handleSendMsg=async (msg)=>{
       await axios.post(sendMessageRoute,{
@@ -28,7 +32,32 @@ function ChatHere({ currentChat ,currentUser}) {
         to:currentChat._id,
         message:msg
       })
+      socket.current.emit("send-msg",{
+        to:currentChat._id,
+        from:currentUser._id,
+        message:msg
+      })
+      const msgs=[...messages]
+      msg.push({fromSelf:true,message:msg})
+      setMessages(msgs)
     }
+
+    useEffect(() => {
+     if(socket.current){
+       socket.current.on("msg-recieve",(msg)=>{
+        setArrivalMessage({fromSelf:false,message:msg})
+       })
+     }
+
+    }, [])
+    useEffect(() => {
+      arrivalmessage && setMessages((prev)=>[...prev,arrivalmessage])
+ 
+     }, [arrivalmessage])
+
+     useEffect(() => {
+      scrollRef.current?.scrollIntoView({behaviour:"smooth"})
+     },[messages])
   return (
     <>
       {currentChat && (
