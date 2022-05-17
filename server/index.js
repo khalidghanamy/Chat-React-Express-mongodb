@@ -4,7 +4,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const messageRoute = require("./routes/messageRoute");
 const body_parser = require("body-parser");
-const socket =require("socket.io");
+const socket = require("socket.io");
 const { mapReduce } = require("./model/messageModel");
 
 const app = express();
@@ -28,53 +28,58 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded({ extended: false }));
 
 const server = app.listen(process.env.PORT, () => {
-    console.log("running");
+  console.log("running");
 });
 mongoose
-.connect(process.env.MONGO_URL, {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-})
-.then(() => {
+  })
+  .then(() => {
     console.log("connected");
-})
-.catch((err) => {
+  })
+  .catch((err) => {
     console.log(err.message);
-});
+  });
+//================Routes=======================//
+app.use("/api/auth", userRoutes);
+app.use("/api/messages", messageRoute);
+
+//================Socket=======================//
 
 // establish connection
-const clientHost = "http://localhost:3000"
-const io = socket(server,{
-  origin:clientHost,
-  credentials:true
-})
+const clientHost = "http://localhost:3000";
+const io = socket(server, {
+   cors: {
+  origin: clientHost,
+  credentials: true,
+},
+});
 
 //create global store for users
-global.onlineUsers= new Map();
+global.onlineUsers = new Map();
 
 //when there is a connection - store socket in global chat socket
 // emit add user from front end whenever user is online we well add both to global map
-io.on("connection",(socket)=>{
+io.on("connection", (socket) => {
+  console.log(" socket connected");
   global.chatSocket = socket;
-  socket.on("add-user",(userId)=>{
-    onlineUsers.set(userId,socket.id)
-  })
-  
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
   // on send-msg event from front end
   // we gonna send msg to online user
   // or if he is online we well save it tp data base
   // and when he back online he will recieved the msg
-  socket.on("send-msg",(data)=>{
-    const sendUserSocket =onlineUsers.get(data.to)
-    if(sendUserSocket){
-      socket.to(sendUserSocket).emit("msg-recieve",data.msg)
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
     }
-  })
-  app.use("/api/auth", userRoutes);
-})
-app.use("/api/messages", messageRoute);
+  });
+});
 
-
-app.use((err,req,res,next)=>{
-  res.status(500).json({Error:err})
-})
+app.use((err, req, res, next) => {
+  res.status(500).json({ Error: err });
+});
