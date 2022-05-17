@@ -3,10 +3,10 @@ const Messages =require("../model/messageModel")
 module.exports.addMessage=async (req,res,next)=>{
 
     try {
-const {from,to,message}= req.body;
-const data =await Messages.create({
+            const {from,to,message}= req.body;
+            const data =await Messages.create({
     message:{text:message},
-    users:{from,to},
+    users:[from,to],
     sender:from
 
 });
@@ -17,22 +17,27 @@ return res.json({msg: "failed to add messages"})
         next(error)
     }
 }
+
 module.exports.getAllmessages=async (req,res,next)=>{
 
     try {
+        console.log('zzzzzzzzzzzzzzzz');
         const {from,to}= req.body;
          const messages = await  Messages.find({
             users:{
-                $all:[{from,to}]
+                $all:[from,to]
             },
          })
          .sort({updatedAt:1})
+
+         console.log(messages);
          const projectMessages = messages.map((msg)=>{
                 return{
                     fromSelf:msg.sender.toString() === from,
                     message: msg.message.text
                 }
          })
+         
          return res.json(projectMessages)
     } catch (error) {
         next(error)
